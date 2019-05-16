@@ -7,20 +7,29 @@ import './index.css';
 import App from './App';
 
 const initialState = {
-  users: [],
+  memories: [],
+  activeMemory: null,
   activeUser: null
 }
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'all_users':
-      return {...state, users: action.payload}
+    case 'all_memories':
+      return {...state, memories: action.payload}
     case 'sign_in':
       return {...state, activeUser: action.payload}
     case 'log_out':
       return {...state, activeUser: action.payload}
     case 'edit_user':
       return {...state, activeUser: action.payload}
+    case 'choose_memory':
+      return {...state, activeMemory: action.payload}
+    case 'add_memory':
+      return {...state, memories: action.payload}
+    case 'edit_memory':
+      return {...state, memories: action.payload}
+    case 'delete_memory':
+      return {...state, memories: action.payload}
     default:
       return state
   }

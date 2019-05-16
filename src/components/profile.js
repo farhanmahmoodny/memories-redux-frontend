@@ -10,20 +10,6 @@ class Profile extends React.Component {
     edit: false
   }
 
-  componentDidMount() {
-    const token = localStorage.getItem("token")
-     if (token) {
-       fetch('http://localhost:3000/get_user', {
-         method: 'GET',
-         headers: {
-          Authorization: token
-         }
-       })
-      .then(response => response.json())
-      .then(data => this.props.dispatch({type: 'sign_in', payload: data.user}))
-    }
-  }
-
   editHandler = () => {
     this.setState({edit: !this.state.edit})
   }
