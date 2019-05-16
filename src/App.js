@@ -7,6 +7,7 @@ import Login from './components/login';
 import NavBar from './components/navbar';
 import Profile from './components/profile';
 import Memories from './components/memories';
+import Memory from './components/memory';
 import './App.css';
 
 class App extends React.Component {
@@ -45,6 +46,7 @@ class App extends React.Component {
         <Route exact path='/login' render={() => (<Login />) }/>
         <Route exact path='/profile' render={() => (<Profile />)} />
         <Route exact path='/memories' render={() => (<Memories />)} />
+        <Route exact path='/memories/:id' render={() => (<Memory />)} />
       </Switch>
     </div>
   )}
@@ -52,7 +54,8 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   return {
     memories: state.memories,
-    activeUser: state.activeUser
+    activeUser: state.activeUser,
+    activeMemory: state.activeMemory
   }
 }
 export default connect(mapStateToProps)(App);

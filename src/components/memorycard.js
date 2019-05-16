@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 class MemoryCard extends React.Component {
 
   state = {
-    id: this.props.memory.id,
     title: this.props.memory.title,
     date: this.props.memory.date,
     edit: false
@@ -49,13 +49,18 @@ class MemoryCard extends React.Component {
     .then(data => this.props.dispatch({type: 'delete_memory', payload: mems}))
   }
 
+  memoryHandler = () => {
+    this.props.dispatch({type: 'choose_memory', payload: this.props.memory})
+    this.props.history.push(`/memories/${this.props.memory.id}`)
+  }
+
   render() {
     console.log(this.props.activeUser)
     console.log(this.props.memory)
     return (
       <div className='memoryCard'>
       {!this.state.edit ?
-        (<div onClick={() => this.props.dispatch({type: 'choose_memory', payload: this.props.memory})}>
+        (<div onClick={this.memoryHandler}>
         <h1 className='memoryCard-info'>{this.props.memory.title}</h1>
         <h1 className='memoryCard-info'>{this.props.memory.date}</h1>
         </div>) :
@@ -83,4 +88,4 @@ const mapStateToProps = (state) => {
     activeUser: state.activeUser
   }
 }
-export default connect(mapStateToProps)(MemoryCard);
+export default withRouter(connect(mapStateToProps)(MemoryCard));
