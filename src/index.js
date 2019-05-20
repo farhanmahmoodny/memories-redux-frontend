@@ -31,7 +31,7 @@ function reducer(state = initialState, action) {
     case 'delete_memory':
       return {...state, activeUser: {...state.activeUser, memories: action.payload}}
     case 'add_photo':
-      return {...state, activeMemory: {...state.activeMemory, photos: action.payload}}
+      return {...state, activeUser: {...state.activeUser, photos: action.payload}}
     default:
       return state
   }
