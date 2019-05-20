@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 class MemoryCard extends React.Component {
 
@@ -20,7 +21,7 @@ class MemoryCard extends React.Component {
 
   submitHandler = (e) => {
     e.preventDefault()
-    let mems = this.props.memories.filter(mem => mem.id !== this.props.memory.id)
+    let mems = this.props.activeUser.memories.filter(mem => mem.id !== this.props.memory.id)
     fetch(`http://localhost:3000/memories/${this.props.memory.id}`, {
       method: 'PATCH',
       headers: {
@@ -39,7 +40,7 @@ class MemoryCard extends React.Component {
 
   deleteHandler = (e) => {
     e.preventDefault()
-    let mems = this.props.memories.filter(mem => mem.id !== this.props.memory.id)
+    let mems = this.props.activeUser.memories.filter(mem => mem.id !== this.props.memory.id)
     fetch(`http://localhost:3000/memories/${this.props.memory.id}`, {
       method: 'DELETE',
       headers: {
@@ -50,41 +51,39 @@ class MemoryCard extends React.Component {
   }
 
   memoryHandler = () => {
-    this.props.dispatch({type: 'choose_memory', payload: this.props.memory})
+    // this.props.dispatch({type: 'choose_memory', payload: this.props.memory})
     this.props.history.push(`/memories/${this.props.memory.id}`)
+    // let activeMem = this.props.activeUser.memories.filter(mem => mem.id === this.props.memory.id)
   }
-
+ // <Link to={'/memories/:id'}>
   render() {
-    console.log(this.props.activeUser)
-    console.log(this.props.memory)
     return (
       <div className='memoryCard'>
-      {!this.state.edit ?
-        (<div onClick={this.memoryHandler}>
-        <h1 className='memoryCard-info'>{this.props.memory.title}</h1>
-        <h1 className='memoryCard-info'>{this.props.memory.date}</h1>
-        </div>) :
-        (<div>
-          <form onSubmit={this.submitHandler}>
-            <h1>Title: <input className='memoryCard-form-input' type='text' name='title' value={this.state.title} onChange={this.changeHandler}/></h1>
-            <h1>Date: <input className='memoryCard-form-input' type='text' name='date' value={this.state.date} onChange={this.changeHandler}/></h1>
-            <button className='memoryCard-button'>Update</button>
-          </form>
-        </div>)
-      }
-      {this.props.activeUser && this.props.memory.user.id === this.props.activeUser.id ?
-        (<div>
+        {!this.state.edit ?
+          (<div>
+            <Link to={`/memories/${this.props.memory.id}`}>
+          <h1 className='memoryCard-info'>{this.props.memory.title}</h1>
+          <h1 className='memoryCard-info'>{this.props.memory.date}</h1>
+          </Link>
+          </div>) :
+          (<div>
+            <form onSubmit={this.submitHandler}>
+              <h1>Title: <input className='memoryCard-form-input' type='text' name='title' value={this.state.title} onChange={this.changeHandler}/></h1>
+              <h1>Date: <input className='memoryCard-form-input' type='text' name='date' value={this.state.date} onChange={this.changeHandler}/></h1>
+              <button className='memoryCard-button'>Update</button>
+            </form>
+          </div>)
+        }
+        <div>
           <button className='memoryCard-button' onClick={this.editHandler}>Edit</button>
           <button className='memoryCard-button' onClick={this.deleteHandler}>Delete</button>
-        </div>) : null}
+        </div>
       </div>
     )
   }
 }
 const mapStateToProps = (state) => {
   return {
-    memories: state.memories,
-    activeMemory: state.activeMemory,
     activeUser: state.activeUser
   }
 }

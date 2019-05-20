@@ -15,16 +15,6 @@ class NavBar extends React.Component {
     return (
       <div className='NavBar'>
         <ul className='nav-ul'>
-          <li className='nav-li'>
-            <div className='nav'>
-              <NavLink className='nav-button' to='/'>Home</NavLink>
-            </div>
-          </li>
-          <li className='nav-li'>
-            <div className='nav'>
-              <NavLink className='nav-button' to='/memories'>Memories</NavLink>
-            </div>
-          </li>
           {this.props.activeUser === null ?
           (<div className='nav-ul'>
             <li className='nav-li'>
@@ -39,6 +29,16 @@ class NavBar extends React.Component {
           </li>
           </div>) :
           (<div className='nav-ul'>
+            <li className='nav-li'>
+              <div className='nav'>
+                <NavLink className='nav-button' to='/'>Home</NavLink>
+              </div>
+            </li>
+            <li className='nav-li'>
+              <div className='nav'>
+                <NavLink className='nav-button' to='/memories'>Memories</NavLink>
+              </div>
+            </li>
             <li className='nav-li'>
             <div className='nav'>
               <NavLink className='nav-button' to='/profile'>Profile</NavLink>

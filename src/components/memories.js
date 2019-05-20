@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import MemoryCard from './memorycard';
+import {withRouter} from 'react-router-dom';
 
 class Memories extends React.Component {
 
@@ -9,6 +10,10 @@ class Memories extends React.Component {
     date: '',
     add: false
   }
+
+  // componentDidMount() {
+  //   this.setState({memories: this.props.activeUser.memories})
+  // }
 
   clickHandler = () => {
     this.setState({add: !this.state.add})
@@ -32,19 +37,22 @@ class Memories extends React.Component {
         user_id: this.props.activeUser.id
       })
     }).then(res => res.json())
-    .then(data => this.props.dispatch({type: 'add_memory', payload: [...this.props.memories, data]}))
+    .then(data => this.props.dispatch({type: 'add_memory', payload: [...this.props.activeUser.memories, data]}))
     this.setState({title: '', date: '', add: !this.state.add})
   }
 
   render() {
-    let memCards = this.props.memories.map(mem => <MemoryCard key={mem.id} memory={mem}/>)
+    let memCards
+    if (this.props.activeUser) {
+      memCards = this.props.activeUser.memories.map(mem => <MemoryCard key={mem.id} memory={mem}/>)
+    }
     return (
       <div>
         <div className='header'>
           <h1 className='h1'>Memories</h1>
         </div>
         <div className='memoryCards'>
-        {memCards}
+          {memCards}
         </div>
         {this.state.add ?
         (<div className='memories-form'>
@@ -61,8 +69,7 @@ class Memories extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    memories: state.memories,
     activeUser: state.activeUser
   }
 }
-export default connect(mapStateToProps)(Memories);
+export default withRouter(connect(mapStateToProps)(Memories));

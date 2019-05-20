@@ -14,16 +14,6 @@ class App extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token")
-     if (token) {
-       fetch('http://localhost:3000/memories', {
-         method: 'GET',
-         headers: {
-          Authorization: token
-         }
-       })
-      .then(response => response.json())
-      .then(data => this.props.dispatch({type: 'all_memories', payload: data}))
-    }
     if (token) {
       fetch('http://localhost:3000/get_user', {
         method: 'GET',
@@ -46,7 +36,7 @@ class App extends React.Component {
         <Route exact path='/login' render={() => (<Login />) }/>
         <Route exact path='/profile' render={() => (<Profile />)} />
         <Route exact path='/memories' render={() => (<Memories />)} />
-        <Route exact path='/memories/:id' render={() => (<Memory />)} />
+        <Route exact path='/memories/:id' render={(props) => (<Memory {...props}/>)} />
       </Switch>
     </div>
   )}
